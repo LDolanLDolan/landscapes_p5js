@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Landscapes – p5.js Sketch</title>
+  <title>🌿 Generative Landscapes Gallery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -16,58 +16,4 @@
       padding: 1em;
     }
     #sketch-container {
-      position: relative;
-      margin: 0;
-      padding: 0;
-    }
-    #button-container {
-      position: fixed;
-      top: 1em;
-      right: 1em;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-    }
-    button {
-      padding: 0.5em 1em;
-      background: #e0f7fa;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #b2ebf2;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>🌿 Landscapes – p5.js Sketch</h1>
-    <p>Select a sketch using the buttons on the right</p>
-  </header>
-
-  <div id="sketch-container"></div>
-
-  <div id="button-container">
-    <button onclick="loadSketch('rain.js')">Rain</button>
-    <button onclick="loadSketch('collage.js')">Collage</button>
-    <button onclick="loadSketch('GenerativeSketchPad.js')">Generative</button>
-  </div>
-
-  <script>
-    let currentScript;
-
-    function loadSketch(file) {
-      if (currentScript) {
-        document.body.removeChild(currentScript);
-      }
-      currentScript = document.createElement('script');
-      currentScript.src = file;
-      document.body.appendChild(currentScript);
-    }
-
-    // Load default sketch
-    loadSketch('rain.js');
-  </script>
-</body>
-</html>
+      position
