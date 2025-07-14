@@ -15,7 +15,71 @@
       text-align: center;
       padding: 1em;
     }
-    #sketch-container {
-      position
+    #button-container {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      z-index: 10;
+    }
+    button {
+      padding: 0.5em 1em;
+      background: #e0f7fa;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #b2ebf2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌱 Generative Landscapes Gallery</h1>
+    <p>Click a sketch title on the right to explore</p>
+  </header>
 
-        <script src="rain.js"></script>
+  <div id="button-container">
+    <button onclick="loadSketch('rain.js')">Rain</button>
+    <button onclick="loadSketch('raintwo.js')">Rain Two</button>
+    <button onclick="loadSketch('leaves_in_breeze.js')">Leaves in Breeze</button>
+    <button onclick="loadSketch('meteorite.js')">Meteorite</button>
+    <button onclick="loadSketch('popcorn.js')">Popcorn</button>
+    <button onclick="loadSketch('pong_1.js')">Pong 1</button>
+    <button onclick="loadSketch('monster.js')">Monster</button>
+    <button onclick="loadSketch('monster_sketch.js')">Monster Sketch</button>
+    <button onclick="loadSketch('GenerativeSketchPad.js')">Generative Pad</button>
+  </div>
+
+  <script>
+    let currentScript;
+
+    function loadSketch(file) {
+      // Remove previous sketch if present
+      if (currentScript) {
+        currentScript.remove();
+      }
+
+      // Create new script
+      currentScript = document.createElement('script');
+      currentScript.src = file;
+
+      // Show success/failure in console
+      currentScript.onload = () => console.log(`✅ Loaded: ${file}`);
+      currentScript.onerror = () => console.error(`❌ Failed to load: ${file}`);
+
+      // Append to body
+      document.body.appendChild(currentScript);
+    }
+
+    // Load first sketch on page load
+    window.onload = () => {
+      loadSketch('rain.js');
+    };
+  </script>
+</body>
+</html>
