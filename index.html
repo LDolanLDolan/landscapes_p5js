@@ -55,31 +55,32 @@
     <button onclick="loadSketch('GenerativeSketchPad.js')">Generative Pad</button>
   </div>
 
-  <script>
-    let currentScript;
+<script>
+  let currentScript;
 
-    function loadSketch(file) {
-      // Remove previous sketch if present
-      if (currentScript) {
-        currentScript.remove();
-      }
-
-      // Create new script
-      currentScript = document.createElement('script');
-      currentScript.src = file;
-
-      // Show success/failure in console
-      currentScript.onload = () => console.log(`✅ Loaded: ${file}`);
-      currentScript.onerror = () => console.error(`❌ Failed to load: ${file}`);
-
-      // Append to body
-      document.body.appendChild(currentScript);
+  function loadSketch(file) {
+    // Remove previous script
+    if (currentScript) {
+      currentScript.remove();
     }
 
-    // Load first sketch on page load
-    window.onload = () => {
-      loadSketch('rain.js');
+    // Create new script
+    currentScript = document.createElement('script');
+    currentScript.src = file;
+    currentScript.onload = () => {
+      console.log(`✅ Loaded: ${file}`);
     };
-  </script>
+    currentScript.onerror = () => {
+      console.error(`❌ Failed to load: ${file}`);
+    };
+    document.body.appendChild(currentScript);
+  }
+
+  window.onload = () => {
+    console.log('🌿 Page loaded');
+    loadSketch('rain.js'); // default sketch
+  };
+</script>
+
 </body>
 </html>
