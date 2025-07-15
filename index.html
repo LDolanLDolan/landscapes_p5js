@@ -35,6 +35,13 @@
     button:hover {
       background: #b2ebf2;
     }
+    #sketch-holder {
+      width: 100%;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
@@ -55,32 +62,41 @@
     <button onclick="loadSketch('GenerativeSketchPad.js')">Generative Pad</button>
   </div>
 
-<script>
-  let currentScript;
+  <div id="sketch-holder"></div>
 
-  function loadSketch(file) {
-    // Remove previous script
-    if (currentScript) {
-      currentScript.remove();
+  <script>
+    let currentScript;
+    let currentP5;
+
+    function loadSketch(file) {
+      // Clean up existing sketch
+      if (currentP5) {
+        currentP5.remove();
+        currentP5 = null;
+      }
+
+      // Remove previous script
+      if (currentScript) {
+        currentScript.remove();
+      }
+
+      // Load new sketch
+      currentScript = document.createElement('script');
+      currentScript.src = file;
+      currentScript.onload = () => {
+        console.log(`✅ Loaded: ${file}`);
+      };
+      currentScript.onerror = () => {
+        console.error(`❌ Failed to load: ${file}`);
+      };
+      document.body.appendChild(currentScript);
     }
 
-    // Create new script
-    currentScript = document.createElement('script');
-    currentScript.src = file;
-    currentScript.onload = () => {
-      console.log(`✅ Loaded: ${file}`);
+    // Load default sketch
+    window.onload = () => {
+      console.log('🌿 Page loaded');
+      loadSketch('rain.js');
     };
-    currentScript.onerror = () => {
-      console.error(`❌ Failed to load: ${file}`);
-    };
-    document.body.appendChild(currentScript);
-  }
-
-  window.onload = () => {
-    console.log('🌿 Page loaded');
-    loadSketch('rain.js'); // default sketch
-  };
-</script>
-
+  </script>
 </body>
 </html>
