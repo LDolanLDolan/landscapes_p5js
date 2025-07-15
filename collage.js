@@ -1,23 +1,25 @@
-let OneImage;
-let TwoImage;
-let ThreeImage;
-let FourImage;
+window.currentP5 = new p5((p) => {
+  let OneImage;
+  let TwoImage;
+  let ThreeImage;
+  let FourImage;
 
-function preload() {
-  OneImage = loadImage('assets/1.jpeg');
-  TwoImage = loadImage('assets/2.jpeg');
-  ThreeImage = loadImage('assets/3.jpeg');
-  FourImage = loadImage('assets/4.jpeg');
-}
+  p.preload = function () {
+    OneImage = p.loadImage('assets/1.jpeg');
+    TwoImage = p.loadImage('assets/2.jpeg');
+    ThreeImage = p.loadImage('assets/3.jpeg');
+    FourImage = p.loadImage('assets/4.jpeg');
+  };
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-}
+  p.setup = function () {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+  };
 
-function draw() {
-  background(220);
-  image(OneImage, 0, 0, width/2, height/2);
-  image(TwoImage, width/2, 0, width/2, height/2);
-  image(ThreeImage, 0, height/2, width/2, height/2);
-  image(FourImage, width/2, height/2, width/2, height/2);
-}
+  p.draw = function () {
+    p.background(220);
+    p.image(OneImage, 0, 0, p.width / 2, p.height / 2);
+    p.image(TwoImage, p.width / 2, 0, p.width / 2, p.height / 2);
+    p.image(ThreeImage, 0, p.height / 2, p.width / 2, p.height / 2);
+    p.image(FourImage, p.width / 2, p.height / 2, p.width / 2, p.height / 2);
+  };
+}, 'sketch-holder');
