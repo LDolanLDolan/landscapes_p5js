@@ -11,7 +11,7 @@ window.currentP5 = new p5((p) => {
     paddle = new Paddle();
     ball = new Ball();
     wallX = p.width;
-    bgColor = p.color(0);
+    bgColor = p.color(30);  // 🌙 darker to contrast paddle
   };
 
   p.draw = function () {
@@ -35,18 +35,15 @@ window.currentP5 = new p5((p) => {
     ball.display();
     ball.move();
 
-    // Paddle collision
     if (ball.hits(paddle)) {
       ball.reverse();
-      bgColor = p.color(p.random(255), p.random(255), p.random(255));
+      bgColor = p.color(p.random(60), p.random(60), p.random(60)); // 🎨 softened dynamic
     }
 
-    // Wall collision
     if (ball.x > wallX - ball.r) {
       ball.reverse();
     }
 
-    // Missed paddle
     if (ball.x < 0) {
       p.noLoop();
       p.fill(255);
@@ -66,7 +63,7 @@ window.currentP5 = new p5((p) => {
     }
 
     display() {
-      p.fill(255);
+      p.fill(255, 100, 100);  // 🎯 visible red paddle
       p.rect(this.x, this.y, this.w, this.h);
     }
 
