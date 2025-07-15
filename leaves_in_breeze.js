@@ -5,16 +5,16 @@ window.currentP5 = new p5((p) => {
 
   class FreshLine {
     constructor(startx, starty) {
-      this.a = 50;
-      this.b = 10;
+      this.a = 50; // width
+      this.b = 10; // height
       this.startx = startx;
       this.starty = starty;
     }
 
     draw() {
-      p.push(); // Isolate transformations
+      p.push();
       p.translate(this.startx, this.starty);
-      p.rotate(1000); // Your original value
+      p.rotate(1000);
       p.fill(p.random(255));
       p.ellipse(0, 0, this.a, this.b);
       p.pop();
