@@ -1,20 +1,21 @@
-function setup() {
-  createCanvas(400, 400);
-}
+window.currentP5 = new p5((p) => {
+  p.setup = function () {
+    p.createCanvas(400, 400);
+  };
 
-function draw() {
-  background(220);
+  p.draw = function () {
+    p.background(220);
+
     let i = 1;
-    while (i<10){
-   
-      fill(0, 0, 255, 100)
-      ellipse(80*i, height/2, random(10), random(10));
-      ellipse(80*i, height/2, random(10), random(10));
-      ellipse(80*i, height/2+100, random(10), random(10));
-    i = i+1;
-  }
-  fill(0, 0, 150, 100);
-  rect(0, height/2, width, height/2)
-}
+    while (i < 10) {
+      p.fill(0, 0, 255, 100);
+      p.ellipse(80 * i, p.height / 2, p.random(10), p.random(10));
+      p.ellipse(80 * i, p.height / 2, p.random(10), p.random(10));
+      p.ellipse(80 * i, p.height / 2 + 100, p.random(10), p.random(10));
+      i = i + 1;
+    }
 
-//code for use in https://editor.p5js.org to make a random display of rain faill
+    p.fill(0, 0, 150, 100);
+    p.rect(0, p.height / 2, p.width, p.height / 2);
+  };
+}, 'sketch-holder');
