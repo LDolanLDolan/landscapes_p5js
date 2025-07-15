@@ -1,146 +1,141 @@
-let monsterX = 150;
-let monsterY = 350;
-let monsterColor = [0, 255, 0];
-let jump = false;
-let jumpHeight = 0;
+window.currentP5 = new p5((p) => {
+  let monsterX = 150;
+  let monsterY = 350;
+  let monsterColor = [0, 255, 0];
+  let jump = false;
+  let jumpHeight = 0;
 
+  let clouds = [
+    { x: 0, y: 100, w: 80, h: 50 },
+    { x: 150, y: 150, w: 100, h: 60 },
+    { x: 300, y: 80, w: 90, h: 55 }
+  ];
 
+  let birdYOffsets = [0, 0, 0, 0];
+  let birdDirections = [1, -1, 1, -1];
 
-let clouds = [
-  { x: 0, y: 100, w: 80, h: 50 },
-  { x: 150, y: 150, w: 100, h: 60 },
-  { x: 300, y: 80, w: 90, h: 55 }
-];
+  p.setup = function () {
+    p.createCanvas(800, 600);
+  };
 
-let birdYOffsets = [0, 0, 0, 0];
-let birdDirections = [1, -1, 1, -1];
+  p.draw = function () {
+    p.background(135, 206, 235); // Blue sky
 
-function setup() {
-  createCanvas(800, 600);
-   saveGif('mySketch', 5);
-}
+    // Grass
+    p.fill(34, 139, 34);
+    p.rect(0, p.height - 100, p.width, 100);
 
-function draw() {
-  background(135, 206, 235); // Blue sky
+    // Tree
+    p.fill(139, 69, 19);
+    p.rect(600, p.height - 200, 30, 100);
+    p.fill(34, 139, 34);
+    p.ellipse(615, p.height - 250, 100, 100);
 
-  // Draw grass
-  fill(34, 139, 34); // Different shade of green
-  rect(0, height - 100, width, 100);
+    // Sun
+    p.fill(255, 223, 0);
+    p.ellipse(700, 100, 80, 80);
 
-  // Draw tree
-  fill(139, 69, 19); // Brown color for the trunk
-  rect(600, height - 200, 30, 100); // Tree trunk
-  fill(34, 139, 34); // Green color for leaves
-  ellipse(615, height - 250, 100, 100); // Tree leaves
-
-  // Draw sun
-  fill(255, 223, 0);
-  ellipse(700, 100, 80, 80);
-
-  // Draw birds
-  fill(0);
-  for (let i = 0; i < 4; i++) {
-    drawBird(100 + i * 100, 150 + birdYOffsets[i]);
-    birdYOffsets[i] += birdDirections[i] * 0.5;
-    if (birdYOffsets[i] > 5 || birdYOffsets[i] < -5) {
-      birdDirections[i] *= -1;
-    }
-  }
-
-  // Draw clouds
-  fill(255);
-  for (let i = 0; i < clouds.length; i++) {
-    let cloud = clouds[i];
-    if (cloud) {
-      ellipse(cloud.x, cloud.y, cloud.w, cloud.h);
-      cloud.x += 1;
-      if (cloud.x > width + cloud.w / 2) {
-        cloud.x = -cloud.w / 2;
+    // Birds
+    p.fill(0);
+    for (let i = 0; i < 4; i++) {
+      drawBird(100 + i * 100, 150 + birdYOffsets[i]);
+      birdYOffsets[i] += birdDirections[i] * 0.5;
+      if (birdYOffsets[i] > 5 || birdYOffsets[i] < -5) {
+        birdDirections[i] *= -1;
       }
-      // Check for collision with the monster
-      if (monsterX < cloud.x + cloud.w / 2 &&
+    }
+
+    // Clouds
+    p.fill(255);
+    for (let i = 0; i < clouds.length; i++) {
+      let cloud = clouds[i];
+      if (cloud) {
+        p.ellipse(cloud.x, cloud.y, cloud.w, cloud.h);
+        cloud.x += 1;
+        if (cloud.x > p.width + cloud.w / 2) {
+          cloud.x = -cloud.w / 2;
+        }
+
+        // Collision
+        if (
+          monsterX < cloud.x + cloud.w / 2 &&
           monsterX + 100 > cloud.x - cloud.w / 2 &&
           monsterY < cloud.y + cloud.h / 2 &&
-          monsterY + 200 > cloud.y - cloud.h / 2) {
-        clouds[i] = null; // Remove cloud on collision
+          monsterY + 200 > cloud.y - cloud.h / 2
+        ) {
+          clouds[i] = null;
+        }
       }
     }
-  }
 
-  // Draw monster
-  fill(monsterColor);
-  
-  // Body
-  rect(monsterX, monsterY + 50, 100, 100);
-  
-  // Head
-  rect(monsterX, monsterY - 50, 100, 100);
-  
-  // Arms
-  rect(monsterX - 40, monsterY + 50, 40, 20);
-  rect(monsterX + 100, monsterY + 50, 40, 20);
-  
-  // Legs
-  rect(monsterX, monsterY + 150, 20, 40);
-  rect(monsterX + 80, monsterY + 150, 20, 40);
-  
-  // Eyes
-  fill(255);
-  rect(monsterX + 20, monsterY - 20, 20, 20);
-  rect(monsterX + 60, monsterY - 20, 20, 20);
-  
-  fill(0);
-  rect(monsterX + 28, monsterY - 12, 4, 4);
-  rect(monsterX + 68, monsterY - 12, 4, 4);
-  
-  // Mouth
-  fill(255, 0, 0);
-  rect(monsterX + 20, monsterY + 30, 60, 20);
-  
-  // Teeth
-  fill(255);
-  rect(monsterX + 30, monsterY + 30, 10, 10);
-  rect(monsterX + 60, monsterY + 30, 10, 10);
-  
-  // Handle jumping
-  if (jump) {
-    jumpHeight += 5;
-    if (jumpHeight > 100) {
-      jump = false;
+    // Monster
+    p.fill(monsterColor);
+    p.rect(monsterX, monsterY + 50, 100, 100); // Body
+    p.rect(monsterX, monsterY - 50, 100, 100); // Head
+    p.rect(monsterX - 40, monsterY + 50, 40, 20); // Left arm
+    p.rect(monsterX + 100, monsterY + 50, 40, 20); // Right arm
+    p.rect(monsterX, monsterY + 150, 20, 40); // Left leg
+    p.rect(monsterX + 80, monsterY + 150, 20, 40); // Right leg
+
+    // Eyes and mouth
+    p.fill(255);
+    p.rect(monsterX + 20, monsterY - 20, 20, 20);
+    p.rect(monsterX + 60, monsterY - 20, 20, 20);
+    p.fill(0);
+    p.rect(monsterX + 28, monsterY - 12, 4, 4);
+    p.rect(monsterX + 68, monsterY - 12, 4, 4);
+    p.fill(255, 0, 0);
+    p.rect(monsterX + 20, monsterY + 30, 60, 20);
+    p.fill(255);
+    p.rect(monsterX + 30, monsterY + 30, 10, 10);
+    p.rect(monsterX + 60, monsterY + 30, 10, 10);
+
+    // Handle jumping
+    if (jump) {
+      jumpHeight += 5;
+      if (jumpHeight > 100) {
+        jump = false;
+      }
+    } else {
+      if (jumpHeight > 0) {
+        jumpHeight -= 5;
+      }
     }
-  } else {
-    if (jumpHeight > 0) {
-      jumpHeight -= 5;
+
+    monsterY = p.constrain(monsterY - jumpHeight, 0, p.height - 190);
+
+    // On-screen instructions
+    p.fill(0);
+    p.textSize(14);
+    p.textAlign(p.LEFT);
+    p.text("← → ↑ ↓ to move", 20, 30);
+    p.text("Spacebar to jump", 20, 50);
+    p.text("Click to change monster colour", 20, 70);
+  };
+
+  p.keyPressed = function () {
+    if (p.keyCode === p.LEFT_ARROW) {
+      monsterX -= 10;
+    } else if (p.keyCode === p.RIGHT_ARROW) {
+      monsterX += 10;
+    } else if (p.keyCode === p.UP_ARROW) {
+      monsterY -= 10;
+    } else if (p.keyCode === p.DOWN_ARROW) {
+      monsterY += 10;
+    } else if (p.key === ' ') {
+      jump = true;
     }
+  };
+
+  p.mousePressed = function () {
+    monsterColor = [p.random(255), p.random(255), p.random(255)];
+  };
+
+  function drawBird(x, y) {
+    p.beginShape();
+    p.vertex(x, y);
+    p.vertex(x + 10, y - 10);
+    p.vertex(x + 20, y);
+    p.endShape();
   }
-  monsterY = constrain(monsterY - jumpHeight, 0, height - 190);
-}
-
-function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-    monsterX -= 10;
-  } else if (keyCode === RIGHT_ARROW) {
-    monsterX += 10;
-  } else if (keyCode === UP_ARROW) {
-    monsterY -= 10;
-  } else if (keyCode === DOWN_ARROW) {
-    monsterY += 10;
-  } else if (key === ' ') {
-    jump = true;
-  }
-}
-
-function mousePressed() {
-  monsterColor = [random(255), random(255), random(255)];
-}
-
-function drawBird(x, y) {
-  beginShape();
-  vertex(x, y);
-  vertex(x + 10, y - 10);
-  vertex(x + 20, y);
-  endShape();
-}
-
-
-     
+}, 'sketch-holder');
