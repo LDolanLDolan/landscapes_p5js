@@ -38,10 +38,18 @@
     }
     #sketch-holder {
       width: 100%;
-      height: 90vh;
+      height: 80vh;
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+    #description-box {
+      margin: 1em;
+      padding: 1em;
+      background: #ffffff;
+      border-left: 4px solid #ccc;
+      max-width: 400px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -52,7 +60,7 @@
   </header>
 
   <div id="button-container">
-    <button onclick="loadSketch('rain.js')">Rain on water</button>
+    <button onclick="loadSketch('rain.js')">Rain on Water</button>
     <button onclick="loadSketch('raintwo.js')">Droplets</button>
     <button onclick="loadSketch('leaves_in_breeze.js')">Leaves in Breeze</button>
     <button onclick="loadSketch('meteorite.js')">Meteorite</button>
@@ -61,7 +69,11 @@
     <button onclick="loadSketch('pong_1.js')">Mini Pong</button>
     <button onclick="loadSketch('monster_sketch.js')">Monster</button>
     <!-- <button onclick="loadSketch('GenerativeSketchPad.js')">Generative Pad</button> -->
-<!-- <button onclick="loadSketch('monster.js')">Monster</button> -->
+    <!-- <button onclick="loadSketch('monster.js')">Monster</button> -->
+  </div>
+
+  <div id="description-box">
+    <!-- Description of the current sketch will appear here -->
   </div>
 
   <div id="sketch-holder"></div>
@@ -69,25 +81,39 @@
   <script>
     let currentScript = null;
 
+    // Descriptions for each sketch
+    const sketchDescriptions = {
+      'rain.js': '🌧️ Rain on Water — A field of elliptical droplets falling with soft variance in blue.',
+      'raintwo.js': '💧 Droplets — Transparent blocks falling in layered rhythm like glitched rain.',
+      'leaves_in_breeze.js': '🍃 Leaves in Breeze — Floating ellipses scattered like leaves in a gentle wind.',
+      'meteorite.js': '☄️ Meteorite — Rainbow meteor blobs drift and fall like a lava lamp. Click to reverse flow.',
+      'popcorn.js': '🍿 Popcorn — Expanding bubble kernels popping with soft motion and reset on click.',
+      'sun_thro_rain.js': '🌈 Mandala — A circular rainbow bloom built from layered concentric ellipses.',
+      'pong_1.js': '🎮 Mini Pong — A solo paddle game with colorful background feedback. Use ↑ ↓ to move.',
+      'monster_sketch.js': '👾 Monster — A playful geometric creature. Click to change its color.',
+    };
+
     function loadSketch(file) {
-      // Remove previous sketch if it exists
+      // Remove previous sketch
       if (window.currentP5 && typeof window.currentP5.remove === 'function') {
         window.currentP5.remove();
         window.currentP5 = null;
       }
 
-      // Remove old script tag
       if (currentScript) {
         currentScript.remove();
       }
 
-      // Create new script tag for sketch
+      // Load new sketch
       const script = document.createElement('script');
       script.src = file;
       script.onload = () => console.log(`✅ Loaded: ${file}`);
       script.onerror = () => console.error(`❌ Failed to load: ${file}`);
       document.body.appendChild(script);
       currentScript = script;
+
+      // Update description box
+      document.getElementById('description-box').innerText = sketchDescriptions[file] || '';
     }
 
     // Load default sketch on page load
